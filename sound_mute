@@ -3,13 +3,13 @@
 amixer sget Master |grep '\[on\]' >/dev/null
 is_mute=$?	# onならば0,offならば1
 
-icon_path="/home/pocke/bin/sound/sound_"
+icon_path="$(cd $(dirname $0)&& pwd)"
 
 if [ '0' = ${is_mute} ]; then
   msg="$(amixer sset Master off|grep '\[*\]')"
-  icon_path="${icon_path}mute.png"
+  icon_path="${icon_path}/mute.png"
 else
   msg="$(amixer sset Master on |grep '\[*\]')"
-  icon_path="${icon_path}max.png"
+  icon_path="${icon_path}/max.png"
 fi
 notify-send -i ${icon_path} "volume" "${msg}"
