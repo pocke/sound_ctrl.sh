@@ -1,16 +1,15 @@
 #!/bin/sh
 
 amixer sget Master |grep '\[on\]' >/dev/null
-NOW_VOL=$?	# onならば0,offならば1
+is_mute=$?	# onならば0,offならば1
 
-ICON="/home/pocke/bin/sound/sound_"
+icon_path="/home/pocke/bin/sound/sound_"
 
-if [ '0' = ${NOW_VOL} ]; then
-  MSG=`amixer sset Master off|grep '\[*\]'`
-  ICON="${ICON}mute.png"
+if [ '0' = ${is_mute} ]; then
+  msg="$(amixer sset Master off|grep '\[*\]')"
+  icon_path="${icon_path}mute.png"
 else
-  MSG=`amixer sset Master on |grep '\[*\]'`
-  ICON="${ICON}max.png"
+  msg="$(amixer sset Master on |grep '\[*\]')"
+  icon_path="${icon_path}max.png"
 fi
-echo ${ICON}
-notify-send -i ${ICON} "volume" "${MSG}"
+notify-send -i ${icon_path} "volume" "${msg}"
